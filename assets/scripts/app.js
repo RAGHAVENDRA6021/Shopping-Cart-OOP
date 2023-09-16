@@ -59,6 +59,8 @@ class ProductList {
         )
     ];
 
+
+
     render() {
         const prodList = document.createElement('ul');
         prodList.className = 'product-list';
@@ -75,10 +77,20 @@ class ProductList {
 
 class ShoppingCart {
     items = [];
-    addProduct(product) {
-        this.items.push(product);
-        this.totalOutput.innerHTML = `<h2>Total : \$${1}</h2>`
+    set cartItems(values) {
+        this.items = values
+        this.totalOutput.innerHTML = `<h2>Total : \$${this.totalAmount.toFixed(2)}</h2>`
     }
+
+    addProduct(product) {
+        this.cartItems = [...this.items, product]
+    }
+
+    get totalAmount() {
+        const sum = this.items.reduce((prevPrice, item) => prevPrice + item.price, 0)
+        return sum
+    }
+
     render() {
         const cartEl = document.createElement('section');
         cartEl.innerHTML = `<h2>Total : \$${0}</h2>
