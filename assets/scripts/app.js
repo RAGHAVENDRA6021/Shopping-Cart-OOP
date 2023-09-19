@@ -65,16 +65,25 @@ class ProductList {
 }
 
 class Cart {
-    items = []
+    items = [];
     addProduct(product) {
-        this.items.push(product)
-        this.cartTotal.innerHTML = `<h2>Total:\$${1}</h2>`
+        this.cartItems = [...this.items, product]
+    }
+
+    set cartItems(value) {
+        this.items = value
+        this.cartTotal.innerHTML = `<h2>Total:\$${this.totalAmount.toFixed(2)}</h2>`
+    }
+
+    get totalAmount() {
+        const sum = this.items.reduce((prev, item) => prev + item.price, 0)
+        return sum;
     }
 
     render() {
         const cartElement = document.createElement('section')
         cartElement.innerHTML = `
-        <h2>Total:\$${0}</h2>
+        <h2>Total:\$${this.totalAmount}</h2>
         <button>order now</button>`;
         cartElement.className = 'cart';
         this.cartTotal = cartElement.querySelector('h2')
